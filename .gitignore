@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+*.pdf
+data/SPROUT/
+data/SPROUT/counts/
+data/SPROUT/pdfs/
+data/data_points/
+
 # Distribution / packaging
 .Python
 build/
