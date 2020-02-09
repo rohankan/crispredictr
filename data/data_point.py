@@ -1,6 +1,5 @@
 from typing import List, NamedTuple
 
-
 TempEditOutcome = NamedTuple(
     'TempEditOutcome', [
         ('indel_start', int),
@@ -49,6 +48,10 @@ class DataPoint:
     """
     Input/output data point for machine learning. Serialize / deserialize with pickle.
     """
+    CSV_ATTRIBUTES: List[str] = ['name', 'file_name', 'guide_rna', 'pam_site', 'cut_site',
+                                 'neighborhood', 'total_reads', 'events']
+    CSV_HEADER: str = ','.join(x.capitalize() for x in CSV_ATTRIBUTES)
+
     def __init__(self,
                  name: str,
                  file_name: str,
@@ -79,4 +82,7 @@ class DataPoint:
 
     def __repr__(self) -> str:
         return f'<DataPoint\n\tname={self.name}\n\tseq={self.neighborhood}\n\t' \
-               f'total_reads={self.total_reads}\n\t'#events={[str(x) for x in self.events]}'
+               f'total_reads={self.total_reads}\n\t'  # events={[str(x) for x in self.events]}'
+
+    def to_csv(self) -> str:
+        return ','.join(str(self.__getattribute__(attr)) for attr in DataPoint.CSV_ATTRIBUTES)
