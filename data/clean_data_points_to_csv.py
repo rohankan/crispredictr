@@ -1,4 +1,5 @@
 from read_data_point import get_data_points
+from constants import MIN_INDEL, MAX_INDEL
 from data_point import DataPoint
 from typing import List
 from collections import defaultdict
@@ -19,7 +20,7 @@ data_points: List[DataPoint] = list(get_data_points())
 
 with open(CSV_FILE, mode='w') as csv_file:
     writer = csv.writer(csv_file)
-    writer.writerow(['PAM First Nucleotide', 'Neighborhood', 'Events'])
+    writer.writerow(['PAM First Nucleotide', 'Neighborhood', 'Indel', 'Percentage'])
 
     cleaned_data_points = (x for x in data_points if x.total_reads >= MIN_TOTAL_READS)
     for dp in cleaned_data_points:
@@ -27,9 +28,12 @@ with open(CSV_FILE, mode='w') as csv_file:
         neighborhood: str = dp.neighborhood
 
         indels = defaultdict(int)
-        for event in dp.events:
+        cleaned_events = (x for x in dp.events if MIN_INDEL <= x.indel <= MAX_INDEL)
+        for event in cleaned_events:
             indels[event.indel] += event.percentage * 100
 
-        delimited_indel_values = '|'.join(str(round(indels[x], 2)) for x in INDEL_RANGE)
+        # for indel, percentage in indels.items():
+        #     writer.writerow([pam_first_nucleotide, neighborhood, indel, percentage])
 
-        writer.writerow([pam_first_nucleotide, neighborhood, delimited_indel_values])
+        for indel in INDEL_RANGE:
+            writer.writerow([pam_first_nucleotide, neighborhood, indel, indels[indel]])

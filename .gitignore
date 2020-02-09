@@ -12,6 +12,7 @@ data/SPROUT/
 data/SPROUT/counts/
 data/SPROUT/pdfs/
 data/data_points/
+data/models/
 
 # Distribution / packaging
 .Python
