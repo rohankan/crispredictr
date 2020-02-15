@@ -1,4 +1,6 @@
 from typing import List, NamedTuple
+import numpy as np
+
 
 TempEditOutcome = NamedTuple(
     'TempEditOutcome', [
@@ -86,3 +88,7 @@ class DataPoint:
 
     def to_csv(self) -> str:
         return ','.join(str(self.__getattribute__(attr)) for attr in DataPoint.CSV_ATTRIBUTES)
+
+
+def data_point_to_read_vector(dp: DataPoint) -> np.ndarray:
+    return np.array([x.percentage for x in dp.events])

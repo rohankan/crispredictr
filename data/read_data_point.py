@@ -20,19 +20,35 @@ def read_data_point_from_file(*,
     return data_point
 
 
+def open_data_point_files(data_point: DataPoint) -> None:
+    os.system(f'open ../data/SPROUT/pdfs/{data_point.file_name}.pdf')
+    os.system(f'open ../data/SPROUT/counts/counts-{data_point.file_name}.txt')
+
+
 def get_data_points() -> Iterable[DataPoint]:
     return (read_data_point_from_file(file_name=x) for x in os.listdir('data_points') if x.endswith('.pickle'))
 
 
 if __name__ == '__main__':
-    args = sys.argv[1:]
-    query = args[0] if len(args) > 0 else 'RL384-00024_F14.pickle'
-    file = next(x for x in os.listdir('data_points') if x.endswith('.pickle') and query in x)
+    # args = sys.argv[1:]
+    # query = args[0] if len(args) > 0 else 'RL384-00024_F14.pickle'
+    # file = next(x for x in os.listdir('data_points') if x.endswith('.pickle') and query in x)
+    seq = 'AGAGGTGGAGGAAGACCTGGGCCGTGCTCTACCCGGCCAGTCCCCACGGCGTAGCGCGGC'
+    for file_name in (x for x in os.listdir('data_points') if x.endswith('.pickle')):
+        dp = read_data_point_from_file(file_name=file_name)
+
+        # print(dp)
+
+        if dp.neighborhood == seq:
+            open_data_point_files(dp)
+            print(dp)
+            break
+    raise yo
+
 
     dp = read_data_point_from_file(file_name=file)
 
-    os.system(f'open ../data/SPROUT/pdfs/{dp.file_name}.pdf')
-    os.system(f'open ../data/SPROUT/counts/counts-{dp.file_name}.txt')
+    open_data_point_files(dp)
 
     print('Name:', dp.name)
     print('General File Name:', dp.file_name)

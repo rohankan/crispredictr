@@ -7,12 +7,20 @@ __pycache__/
 *.so
 
 *.pdf
+
 *.csv
+!cleaned_data_points.csv
+*.png
+tester.txt
+tester_output.txt
+asdfasdf.txt
+data/models/2020_02_09-18_01_38/2020_02_09-18_01_38-rf_model.pickle
+data/models/2020_02_13-17_40_22/knn_model.pickle
+
 data/SPROUT/
 data/SPROUT/counts/
 data/SPROUT/pdfs/
 data/data_points/
-data/models/
 
 # Distribution / packaging
 .Python
